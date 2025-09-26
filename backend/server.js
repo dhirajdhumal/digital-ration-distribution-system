@@ -11,9 +11,8 @@ dotenv.config();
 
 // Route files
 const authRoutes = require('./routes/authRoutes');
-const complaintRoutes = require('./routes/complaintRoutes');
-const notificationRoutes = require('./routes/notificationRoutes');
 const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -31,9 +30,8 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Mount routers
 app.use('/api/auth', authRoutes);
-app.use('/api/complaints', upload.none(), complaintRoutes);
-app.use('/api/notifications', upload.none(), notificationRoutes);
-app.use('/api/villageAdmins', upload.none(), userRoutes);
+app.use('/api/user', upload.none(), userRoutes);
+app.use('/api/admin', upload.none(), adminRoutes);
 
 const PORT = process.env.PORT || 5001;
 

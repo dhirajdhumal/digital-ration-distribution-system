@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { getVillageAdmins } = require('../controllers/userController');
-const { protect, adminOnly } = require('../middleware/authMiddleware');
+const { createComplaint, getComplaintsByUser, getNotificationById } = require('../controllers/userController');
+const { protect } = require('../middleware/authMiddleware');
 
-router.get('/', protect, adminOnly, getVillageAdmins);
+router.post('/create-complaint', protect, createComplaint);
+router.get('/notification/:id', getNotificationById);
+router.get('/my-complaints', protect, getComplaintsByUser);
 
 module.exports = router;
+const multer = require('multer');
+const upload = multer();    // Initialize multer for parsing multipart/form-data            
