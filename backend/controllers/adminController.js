@@ -97,14 +97,20 @@ exports.makeVillageAdmin = async (req, res) => {
 };
 
 // @desc    Get all Village Admins
+// @desc    Get all Village Admins with allocated stock
 exports.getVillageAdmins = async (req, res) => {
   try {
-    const villageAdmins = await User.find({ role: 'villageAdmin' }).select('-password');
-    res.json(villageAdmins);
+    const villageAdmins = await User.find({ role: 'villageAdmin' })
+      .select('-password') // hide password
+      .populate('allocatedStock.stockId', 'item unit price'); 
+      // populate stock details: item, unit, price
+
+    res.status(200).json(villageAdmins);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-}
+};
+
 
 // @desc    Get all complaints (admin only)
 exports.getAllComplaints = async (req, res) => {
@@ -137,3 +143,85 @@ exports.createStock = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 };
+
+
+//get all stocks details
+exports.getAllStocks = async (req, res) => {
+    try {
+        const stocks = await Stock.find();
+        res.status(200).json(stocks);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// get in list of stock items
+exports.getStockItemsList = async (req, res) => {
+    try {
+        const items = await Stock.distinct("item");
+        const units = await Stock.distinct("unit");
+        const prices = await Stock.distinct("price");
+
+        res.status(200).json({ items, units, prices });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.allocateStockToVillageAdmin = async (req, res) => {
+  try {
+    const { VillageAdminId, stockId, quantity, unit } = req.body;
+
+    const qtyToAdd = Number(quantity); // Ensure it's numeric
+
+    // 1️⃣ Check stock exists
+    const stock = await Stock.findById(stockId);
+    if (!stock) return res.status(404).json({ message: "Stock item not found" });
+
+    // 2️⃣ Check enough stock available
+    if (stock.quantity < qtyToAdd) {
+      return res.status(400).json({ message: "Not enough stock available" });
+    }
+
+    // 3️⃣ Find admin
+    const admin = await User.findById(VillageAdminId);
+    if (!admin || admin.role !== "villageAdmin") {
+      return res.status(404).json({ message: "Village admin not found" });
+    }
+
+    // 4️⃣ Check if the stock is already allocated
+    const existingAllocation = admin.allocatedStock.find(
+      (s) => s.stockId.toString() === stockId
+    );
+
+    if (existingAllocation) {
+      // ✅ Add new quantity to existing allocation
+      existingAllocation.quantity += qtyToAdd;
+      existingAllocation.unit = unit; // optional: update unit
+    } else {
+      // Add new allocation if not exists
+      admin.allocatedStock.push({ stockId, quantity: qtyToAdd, unit });
+    }
+
+    // 5️⃣ Deduct from stock
+    stock.quantity -= qtyToAdd;
+    await stock.save();
+
+    // 6️⃣ Save admin allocation
+    await admin.save();
+
+    res.status(200).json({
+      message: "Stock allocated successfully",
+      allocatedStock: existingAllocation || { stockId, quantity: qtyToAdd, unit },
+      remainingStock: stock.quantity
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+
+
