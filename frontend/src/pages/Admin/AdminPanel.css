@@ -1,0 +1,21 @@
+.adminCard {
+    display: flex;
+    flex-wrap: wrap; 
+    padding: auto;          /* allows wrapping to new lines */
+    gap: 40px;                 /* space between cards */  /* center cards horizontally */
+    width: 100%;
+    justify-content: center;  /* center cards horizontally */
+}
+
+.adminPanel {
+    flex: 0 1 400px;           /* allows cards to grow and shrink, with a base width of 200px */
+    min-width: 200px;    
+    max-height: 250px;       /* prevents them from shrinking too much */
+    background-color: #add8e6;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    word-wrap: break-word;   /* breaks long words */
+    overflow-wrap: break-word;
+    white-space: normal;  
+}
