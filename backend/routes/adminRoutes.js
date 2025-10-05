@@ -1,32 +1,63 @@
 const express = require('express');
 const router = express.Router();
-const { 
-    createNotification, 
-    getAllNotifications, 
-    updateNotification, 
-    deleteNotification, 
-    getVillageAdmins, 
-    makeVillageAdmin, 
-    getAllComplaints, 
-    createStock,
-    getStockItemsList,
-    allocateStockToVillageAdmin,
-    getAllStocks
-} = require('../controllers/adminController');
+
+// 🧩 Import controllers
+const {
+  createNotification,
+  getAllNotifications,
+  updateNotification,
+  deleteNotification
+} = require('../controllers/admin/notificationController');
+
+const {
+  createStock,
+  allocateStockToVillageAdmin,
+  getAllStocks,
+  getStockItemsList
+} = require('../controllers/admin/stockController');
+
+const {
+  getAllComplaints
+} = require('../controllers/admin/complaintController');
+
+const {
+  makeVillageAdmin,
+  getVillageAdmins
+} = require('../controllers/admin/villageAdminController');
+
+// 🛡️ Middleware
 const { protect, adminOnly } = require('../middleware/authMiddleware');
 
-router.post('/make-village-admin', protect, adminOnly, makeVillageAdmin);
+/* ================================
+   👤 VILLAGE ADMIN MANAGEMENT
+================================ */
+router.post('/village-admin', protect, adminOnly, makeVillageAdmin);
+router.get('/village-admins', protect, adminOnly, getVillageAdmins);
 
-router.post("/create-notification", protect, adminOnly, createNotification);
-router.post('/create-stock', protect, adminOnly, createStock)
-router.post('/allocate-stocks-to-village-admin', protect, adminOnly, allocateStockToVillageAdmin);
-router.put('/update-notification/:id', protect, adminOnly, updateNotification);
-router.delete('/delete-notification/:id', protect, adminOnly, deleteNotification);
+/* ================================
+   🔔 NOTIFICATION MANAGEMENT
+================================ */
+router
+  .route('/notifications')
+  .post(protect, adminOnly, createNotification)
+  .get(protect, adminOnly, getAllNotifications);
 
-router.get('/get-all-village-admins', protect, adminOnly, getVillageAdmins);
-router.get('/all-complaints', protect, adminOnly, getAllComplaints);
-router.get("/all-notifications", protect, adminOnly, getAllNotifications);
-router.get('/all-stock-details', protect, adminOnly, getAllStocks);
-router.get('/stock-items', protect, adminOnly, getStockItemsList);
+router
+  .route('/notifications/:id')
+  .put(protect, adminOnly, updateNotification)
+  .delete(protect, adminOnly, deleteNotification);
+
+/* ================================
+   📦 STOCK MANAGEMENT
+================================ */
+router.post('/stocks', protect, adminOnly, createStock);
+router.get('/stocks', protect, adminOnly, getAllStocks);
+router.get('/stocks/items', protect, adminOnly, getStockItemsList);
+router.post('/stocks/allocate', protect, adminOnly, allocateStockToVillageAdmin);
+
+/* ================================
+   🧾 COMPLAINT MANAGEMENT
+================================ */
+router.get('/complaints', protect, adminOnly, getAllComplaints);
 
 module.exports = router;
