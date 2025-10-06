@@ -45,11 +45,10 @@ exports.createStock = async (req, res) => {
 };
 
 
-
 //get all stocks details
 exports.getAllStocks = async (req, res) => {
     try {
-        const stocks = await Stock.find();
+        const stocks = await Stock.find({}, "_id item quantity unit price createdAt updatedAt");
         res.status(200).json(stocks);
     } catch (error) {
         console.error(error);
@@ -57,22 +56,10 @@ exports.getAllStocks = async (req, res) => {
     }
 };
 
-// get in list of stock items
-exports.getStockItemsList = async (req, res) => {
-    try {
-        const items = await Stock.distinct("item");
-        const units = await Stock.distinct("unit");
-        const prices = await Stock.distinct("price");
-
-        res.status(200).json({ items, units, prices });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
 
 exports.allocateStockToVillageAdmin = async (req, res) => {
   try {
-    const { VillageAdminId, stockId, quantity, unit } = req.body;
+    const { villageAdminId, stockId, quantity, unit } = req.body;
     const qtyToAdd = Number(quantity); // ensure it's numeric
 
     // 1️⃣ Check if stock exists
@@ -85,7 +72,7 @@ exports.allocateStockToVillageAdmin = async (req, res) => {
     }
 
     // 3️⃣ Find village admin
-    const admin = await User.findById(VillageAdminId);
+    const admin = await User.findById(villageAdminId);
     if (!admin || admin.role !== "villageAdmin") {
       return res.status(404).json({ message: "Village admin not found" });
     }
@@ -99,6 +86,7 @@ exports.allocateStockToVillageAdmin = async (req, res) => {
       // ✅ Update existing allocation
       allocation.quantity += qtyToAdd;
       allocation.unit = unit; // optional: update unit if needed
+      allocation.allocatedAt = new Date();
     } else {
       // ✅ Add new allocation
       allocation = { stockId, quantity: qtyToAdd, unit };
@@ -120,5 +108,32 @@ exports.allocateStockToVillageAdmin = async (req, res) => {
 
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+
+// Get all allocations (for admin dashboard)
+exports.getAllAllocatedStocks = async (req, res) => {
+  try {
+    const admins = await User.find({ role: "villageAdmin" }).populate("allocatedStock.stockId", "item unit");
+
+    const allocations = [];
+    admins.forEach(admin => {
+      admin.allocatedStock.forEach(stock => {
+        allocations.push({
+          villageAdminId: admin._id,
+          villageAdminName: admin.name,
+          stockItem: stock.stockId.item,
+          quantity: stock.quantity,
+          unit: stock.unit,
+          allocatedAt: stock.allocatedAt,
+        });
+      });
+    });
+
+    res.json(allocations);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch allocations" });
   }
 };

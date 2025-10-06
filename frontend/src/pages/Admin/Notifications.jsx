@@ -1,12 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import {
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  Button
-} from "@mui/material";
 import api from "../../services/api";
 import AuthContext from "../../context/authContext";
 import "./Notifications.css";
@@ -17,9 +9,8 @@ function Notifications() {
   const [notificationBody, setNotificationBody] = useState("");
   const [message, setMessage] = useState("");
   const [notifications, setNotifications] = useState([]);
-  const [editingId, setEditingId] = useState(null); // track current notification being updated
+  const [editingId, setEditingId] = useState(null);
 
-  // Fetch notifications
   const fetchNotifications = async () => {
     try {
       const res = await api.get("/admin/notifications");
@@ -33,7 +24,6 @@ function Notifications() {
     fetchNotifications();
   }, []);
 
-  // Handle create or update
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user || user.role !== "admin") {
@@ -43,14 +33,12 @@ function Notifications() {
 
     try {
       if (editingId) {
-        // Update existing notification
         await api.put(`/admin/notifications/${editingId}`, {
           notificationTitle,
           notificationBody,
         });
         setMessage("Notification updated successfully");
       } else {
-        // Create new notification
         await api.post("/admin/notifications", {
           notificationTitle,
           notificationBody,
@@ -58,18 +46,16 @@ function Notifications() {
         setMessage("Notification sent successfully");
       }
 
-      // Reset form
       setNotificationTitle("");
       setNotificationBody("");
       setEditingId(null);
-      fetchNotifications(); // refresh list
+      fetchNotifications();
     } catch (err) {
       console.error(err.response || err);
       setMessage("Failed to save notification");
     }
   };
 
-  // Delete notification
   const handleDelete = async (id) => {
     try {
       await api.delete(`/admin/notifications/${id}`);
@@ -87,28 +73,24 @@ function Notifications() {
     }
   };
 
-  // Populate form for editing
   const handleEdit = (notification) => {
     setNotificationTitle(notification.notificationTitle);
     setNotificationBody(notification.notificationBody);
-    setEditingId(notification.notificationId); // use notificationId for backend
-    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to form
+    setEditingId(notification.notificationId);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <>
-      {/* Notification Form */}
-      <div className="notification-container">
+    <div className="notifications-container">
+      <div className="notification-form">
         <h2>{editingId ? "Update Notification" : "Send Notification"}</h2>
+
         {message && (
-          <p
-            className={`message ${
-              message.includes("successfully") ? "success" : "error"
-            }`}
-          >
+          <div className={`alert ${message.includes("successfully") ? "success" : "error"}`}>
             {message}
-          </p>
+          </div>
         )}
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Title:</label>
@@ -119,6 +101,7 @@ function Notifications() {
               required
             />
           </div>
+
           <div className="form-group">
             <label>Body:</label>
             <textarea
@@ -127,69 +110,44 @@ function Notifications() {
               required
             />
           </div>
-          <button type="submit">{editingId ? "Update Notification" : "Send Notification"}</button>
-          {editingId && (
-            <Button
-              color="secondary"
-              onClick={() => {
-                // Cancel editing
-                setEditingId(null);
-                setNotificationTitle("");
-                setNotificationBody("");
-              }}
-            >
-              Cancel
-            </Button>
-          )}
+
+          <div className="form-actions">
+            <button type="submit">{editingId ? "Update Notification" : "Send Notification"}</button>
+            {editingId && (
+              <button
+                type="button"
+                className="cancel-btn"
+                onClick={() => {
+                  setEditingId(null);
+                  setNotificationTitle("");
+                  setNotificationBody("");
+                }}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
-      {/* All Notifications */}
-      <Box mt={4}>
-        <Typography variant="h5" gutterBottom>
-          All Notifications
-        </Typography>
-        <Grid container spacing={2}>
-          {notifications.map((notification) => (
-            <Grid item xs={12} md={6} lg={4} key={notification._id}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    {notification.notificationTitle}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {notification.notificationBody}
-                  </Typography>
+      <div className="notification-list">
+        <h3>All Notifications</h3>
+        {notifications.length === 0 && <p>No notifications found.</p>}
 
-                  {user?.role === "admin" && (
-                    <>
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        size="small"
-                        onClick={() => handleEdit(notification)}
-                        style={{ marginTop: "10px", marginRight: "5px" }}
-                      >
-                        Update
-                      </Button>
-                      <Button
-                        color="error"
-                        variant="contained"
-                        size="small"
-                        onClick={() => confirmDelete(notification.notificationId)}
-                        style={{ marginTop: "10px" }}
-                      >
-                        Delete
-                      </Button>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </>
+        {notifications.map((notification) => (
+          <div className="notification-card" key={notification._id}>
+            <h4>{notification.notificationTitle}</h4>
+            <p>{notification.notificationBody}</p>
+            {user?.role === "admin" && (
+              <div className="notification-actions">
+                <button onClick={() => handleEdit(notification)}>Update</button>
+                <button className="delete-btn" onClick={() => confirmDelete(notification.notificationId)}>Delete</button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

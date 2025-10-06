@@ -1,0 +1,72 @@
+.allocate-stock-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 500px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+}
+
+select, input {
+  margin-top: 5px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #90caf9;
+  cursor: not-allowed;
+}
+
+.alert {
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.alert.success {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.alert.error {
+  background-color: #ffcdd2;
+  color: #c62828;
+}

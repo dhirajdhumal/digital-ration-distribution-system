@@ -13,7 +13,7 @@ const {
   createStock,
   allocateStockToVillageAdmin,
   getAllStocks,
-  getStockItemsList
+  getAllAllocatedStocks
 } = require('../controllers/admin/stockController');
 
 const {
@@ -52,8 +52,10 @@ router
 ================================ */
 router.post('/stocks', protect, adminOnly, createStock);
 router.get('/stocks', protect, adminOnly, getAllStocks);
-router.get('/stocks/items', protect, adminOnly, getStockItemsList);
+
 router.post('/stocks/allocate', protect, adminOnly, allocateStockToVillageAdmin);
+// Get all allocations
+router.get("/allocated-stocks", protect, adminOnly, getAllAllocatedStocks);
 
 /* ================================
    🧾 COMPLAINT MANAGEMENT
