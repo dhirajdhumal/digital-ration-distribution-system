@@ -24,6 +24,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(data));
         setUser(data);
         api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+
+        return data;
     };
 
     const register = async (name, email, password) => {

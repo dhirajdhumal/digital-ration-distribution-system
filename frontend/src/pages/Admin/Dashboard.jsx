@@ -1,8 +1,8 @@
-import './AdminPanel.css';  
+import './Dashboard.css';  
 import { useNavigate } from 'react-router-dom';
 
 
-function AdminPanel() {
+function Dashboard() {
     const navigate = useNavigate();
 
 
@@ -40,4 +40,4 @@ function AdminPanel() {
     );
 }
 
-export default AdminPanel;
+export default Dashboard;

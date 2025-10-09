@@ -34,4 +34,12 @@ const adminOnly = (req, res, next) => {
   }
 };
 
-module.exports = { protect, adminOnly };
+const villageAdminOnly = (req, res, next) => {
+  if (req.user && req.user.role === "villageadmin") {
+    next();
+  } else {
+    res.status(403).json({ message: "Village Admin access only" });
+  }
+};
+
+module.exports = { protect, adminOnly, villageAdminOnly };

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import AuthContext from "../context/authContext";
 
-const ProtectedRoute = ({ children, adminOnly = false }) => {
+const ProtectedRoute = ({ children, adminOnly = false, villageAdminOnly = false }) => {
   const { user } = useContext(AuthContext);
 
   if (!user) return <Navigate to="/login" replace />;
@@ -11,7 +11,11 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     return <Navigate to="/" replace />; // redirect non-admins
   }
 
-  return children;
+  if (villageAdminOnly && user.role !== "villageAdmin") {
+    return <Navigate to="/" replace />; // redirect non-village admins
+  }
+
+  return children;  
 };
 
 export default ProtectedRoute;
