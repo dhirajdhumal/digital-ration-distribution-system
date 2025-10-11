@@ -1,21 +1,62 @@
 .adminCard {
-    display: flex;
-    flex-wrap: wrap; 
-    padding: auto;          /* allows wrapping to new lines */
-    gap: 40px;                 /* space between cards */  /* center cards horizontally */
-    width: 100%;
-    justify-content: center;  /* center cards horizontally */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* center cards horizontally */
+  align-items: flex-start;
+  gap: 40px;               /* space between cards */
+  width: 100%;
+  padding: 40px 20px;
 }
 
+/* Each admin panel card */
 .adminPanel {
-    flex: 0 1 400px;           /* allows cards to grow and shrink, with a base width of 200px */
-    min-width: 200px;    
-    max-height: 250px;       /* prevents them from shrinking too much */
-    background-color: #add8e6;
+  flex: 0 1 400px;           /* base width */
+  min-width: 250px;
+  max-height: 250px;
+  background-color: #b3d9ff; /* Optimized card background */
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings inside cards */
+.adminPanel h1 {
+  color: #1565c0; /* Optimized heading blue */
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.adminPanel h4 {
+  color: #1a1a1a; /* Optimized subheading color */
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+/* Optional icons or images */
+.adminPanel i,
+.adminPanel svg {
+  font-size: 2.2rem;
+  color: #1565c0; /* Optimized icon color */
+  margin-bottom: 12px;
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .adminCard {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
     padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    word-wrap: break-word;   /* breaks long words */
-    overflow-wrap: break-word;
-    white-space: normal;  
+  }
+
+  .adminPanel {
+    flex: 0 1 90%;
+    padding: 20px;
+  }
 }

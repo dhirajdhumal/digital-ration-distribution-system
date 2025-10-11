@@ -1,0 +1,77 @@
+.navbar {
+  background-color: #1565c0; /* Primary blue */
+  color: #ffffff; /* Text color */
+}
+
+.navbar a {
+  color: #ffffff; /* Links */
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: 500;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.navbar .nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .nav-links .active {
+  border-bottom: 2px solid #90caf9; /* Accent blue for active link */
+}
+
+.navbar .user-info {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .user-info span {
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.navbar .user-info button {
+  background-color: #ffffff; /* Button background */
+  color: #1565c0; /* Button text color */
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.navbar .user-info button:hover {
+  background-color: #cfe4fc; /* Hover light blue */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  .navbar .nav-links {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .navbar .nav-links a {
+    margin: 8px 0;
+  }
+
+  .navbar .user-info {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: space-between;
+  }
+}

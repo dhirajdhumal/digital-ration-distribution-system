@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Container } from '@mui/material'; // Assuming you are using Material-UI
+import './App.css';
 import Navbar from './components/Navbar.jsx';
 import Home from './pages/Home.jsx';
 import Login from './pages/Auth/Login.jsx';
