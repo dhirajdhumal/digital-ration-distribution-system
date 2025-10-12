@@ -21,6 +21,7 @@ const {
 } = require('../controllers/admin/complaintController');
 
 const {
+  getAllUsers,
   makeVillageAdmin,
   getVillageAdmins
 } = require('../controllers/admin/villageAdminController');
@@ -31,8 +32,10 @@ const { protect, adminOnly } = require('../middleware/authMiddleware');
 /* ================================
    👤 VILLAGE ADMIN MANAGEMENT
 ================================ */
-router.post('/village-admin', protect, adminOnly, makeVillageAdmin);
 router.get('/village-admins', protect, adminOnly, getVillageAdmins);
+router.get('/users', protect, adminOnly, getAllUsers);
+router.post('/make-village-admin', protect, adminOnly, makeVillageAdmin);
+
 
 /* ================================
    🔔 NOTIFICATION MANAGEMENT

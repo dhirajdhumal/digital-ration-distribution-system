@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 function Dashboard() {
     const navigate = useNavigate();
 
-
     return (
         <div>
             <h1 style={{textAlign: 'center',marginTop: '50px', marginBottom: '50px'}}>Everything here For You Admin</h1>
@@ -32,6 +31,12 @@ function Dashboard() {
                 <h1>User Complaints</h1>
                 <h4>View User Complaints</h4>
                 <button onClick={() => navigate('/admin/complaints')}>View</button>
+            </div>
+
+            <div className="adminPanel">
+                <h1>Make Village Admin</h1>
+                <h4>Assign Village Admin Role</h4>
+                <button onClick={() => navigate('/admin/make-village-admin')}>View</button>
             </div>
 
             </div>

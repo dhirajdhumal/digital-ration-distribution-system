@@ -35,6 +35,14 @@ function AllocateStock() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+  if (message) {
+    // Hide message after 3 seconds
+    const timer = setTimeout(() => setMessage(""), 3000);
+    return () => clearTimeout(timer);
+  }
+}, [message]);
+
   const selectedStock = useMemo(
     () => stocks.find((s) => s._id === stockId),
     [stockId, stocks]
