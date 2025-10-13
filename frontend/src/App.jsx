@@ -9,6 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx'; // Import Protecte
 import Dashboard from './pages/Dashboard.jsx'; // Import Dashboard component  
 import AdminRoutes from './pages/Admin/AdminRoutes.jsx';   
 import VillageAdminRoutes from './pages/VillageAdmin/VillageAdminRoutes.jsx';
+import UserRoutes from './pages/User/UserRoutes.jsx';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
 
               <Route path="/admin/*" element={<ProtectedRoute adminOnly={true}> <AdminRoutes /> </ProtectedRoute>} />
               <Route path="/village-admin/*" element={<ProtectedRoute villageAdminOnly={true}> <VillageAdminRoutes /> </ProtectedRoute>} />
+              <Route path="/user/*" element={<UserRoutes/>} />
             </Routes>
           </Container>
         </main>

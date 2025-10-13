@@ -1,13 +1,15 @@
 import './Dashboard.css';  
 import { useNavigate } from 'react-router-dom';
-
+import { useContext } from 'react';
+import AuthContext from '../../context/authContext'; 
 
 function Dashboard() {
     const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
 
     return (
         <div>
-            <h1 style={{textAlign: 'center',marginTop: '50px', marginBottom: '50px'}}>Everything here For You Admin</h1>
+            <h1 style={{textAlign: 'center',marginTop: '50px', marginBottom: '50px'}}>Everything here For You {user?.name || "Admin"}</h1>
             <div className='adminCard'>
                 <div className="adminPanel">
                 <h1>Distribute ration</h1>

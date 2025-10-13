@@ -31,6 +31,11 @@ const Navbar = () => {
                                 Village Admin Panel
                             </Button>
                         )}
+                        {user.role === 'user' && (
+                            <Button color="inherit" component={Link} to="/user/dashboard">
+                                Your Dashboard
+                            </Button>
+                        )}
                         <Button color="inherit" component={Link} to="/" onClick={logout}>
                             Logout
                         </Button>

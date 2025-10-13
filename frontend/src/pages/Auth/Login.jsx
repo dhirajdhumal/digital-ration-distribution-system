@@ -32,7 +32,7 @@ const Login = () => {
       } else if (loggedInUser?.role === "villageAdmin") {
         navigate("/village-admin/dashboard");
       } else {
-        navigate("/dashboard");
+        navigate("/user/dashboard");
       }
     } catch (err) {
       // Step 3: Get the message from the server and set it in the state

@@ -1,109 +1,195 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import api from "../../services/api";
 import AuthContext from "../../context/authContext";
-import "./MakeVillageAdmin.css";
+import "./Notifications.css";
 
-function MakeVillageAdmin() {
+function Notifications() {
   const { user } = useContext(AuthContext);
-
-  const [users, setUsers] = useState([]);
-  const [roles, setRoles] = useState([]);
-
-  const [userId, setUserId] = useState("");
-  const [roleId, setRoleId] = useState("");
-
-  const [loading, setLoading] = useState(false);
+  const [notificationTitle, setNotificationTitle] = useState("");
+  const [notificationBody, setNotificationBody] = useState("");
   const [message, setMessage] = useState("");
+  const [notifications, setNotifications] = useState([]);
+  const [editingId, setEditingId] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await api.get("/admin/users");
-        setUsers(res.data.users);
-        setRoles(res.data.roles);
-      } catch (err) {
-        console.error(err);
-        setMessage("❌ Failed to fetch data from database");
-      }
-    };
-    fetchData();
-  }, []);
-
-  // Auto-hide error messages after 3 seconds
-  useEffect(() => {
-    if (message && message.includes("❌")) {
-      const timer = setTimeout(() => setMessage(""), 3000);
-      return () => clearTimeout(timer);
+  // Fetch all notifications
+  const fetchNotifications = async () => {
+    try {
+      const res = await api.get("/admin/notifications");
+      setNotifications(res.data);
+    } catch (err) {
+      console.error("Error fetching notifications", err);
     }
-  }, [message]);
-
-  const resetForm = () => {
-    setUserId("");
-    setRoleId("");
   };
 
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  // Create or update
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!userId || !roleId) {
-      setMessage("❌ Please select both user and role");
+    if (!user || user.role !== "admin") {
+      setMessage("Only admins can send notifications.");
       return;
     }
 
     try {
-      setLoading(true);
-      await api.post("/admin/make-village-admin", { userId, role: roleId });
-      setMessage("✅ Role assigned successfully!"); // stays until next action
-      resetForm();
+      if (editingId) {
+        await api.put(`/admin/notifications/${editingId}`, {
+          notificationTitle,
+          notificationBody,
+        });
+        setMessage("Notification updated successfully");
+      } else {
+        await api.post("/admin/notifications", {
+          notificationTitle,
+          notificationBody,
+        });
+        setMessage("Notification sent successfully");
+      }
+
+      setNotificationTitle("");
+      setNotificationBody("");
+      setEditingId(null);
+      fetchNotifications();
     } catch (err) {
-      console.error(err);
-      setMessage("❌ Failed to assign role"); // auto-hides after 3s
-    } finally {
-      setLoading(false);
+      console.error(err.response || err);
+      setMessage("Failed to save notification");
     }
   };
 
+  // Delete
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/admin/notifications/${id}`);
+      setMessage("Notification deleted successfully");
+      fetchNotifications();
+    } catch (err) {
+      console.error(err.response || err);
+      setMessage("Failed to delete notification");
+    }
+  };
+
+  const confirmDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this notification?")) {
+      handleDelete(id);
+    }
+  };
+
+  // Edit existing
+  const handleEdit = (notification) => {
+    setNotificationTitle(notification.notificationTitle);
+    setNotificationBody(notification.notificationBody);
+    setEditingId(notification.notificationId);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <div>
-      <h2>Make Village Admin Here</h2>
-
-      <form onSubmit={handleSubmit}>
-        <label>
-          Select user:
-          <select value={userId} onChange={(e) => setUserId(e.target.value)}>
-            <option value="">Select a User</option>
-            {users.map((user) => (
-              <option key={user._id} value={user._id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          Select role:
-          <select value={roleId} onChange={(e) => setRoleId(e.target.value)}>
-            <option value="">Select a Role</option>
-            {roles.map((role) => (
-              <option key={role.name} value={role.name}>
-                {role.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Assigning..." : "Assign Role"}
-        </button>
+    <div className="notifications-container">
+      {/* Notification Form */}
+      <div className="notification-form">
+        <h2>{editingId ? "Update Notification" : "Send Notification"}</h2>
 
         {message && (
-          <p className={`message ${message.includes("✅") ? "success" : "error"}`}>
+          <div
+            className={`alert ${
+              message.includes("successfully") ? "success" : "error"
+            }`}
+          >
             {message}
-          </p>
+            <button
+              className="close-btn"
+              onClick={() => setMessage("")}
+            >
+              ✕
+            </button>
+          </div>
         )}
-      </form>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Title:</label>
+            <input
+              type="text"
+              value={notificationTitle}
+              onChange={(e) => setNotificationTitle(e.target.value)}
+              required
+              placeholder="Enter notification title"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Body:</label>
+            <textarea
+              value={notificationBody}
+              onChange={(e) => setNotificationBody(e.target.value)}
+              required
+              placeholder="Enter notification body"
+            />
+          </div>
+
+          <div className="form-actions">
+            <button type="submit">
+              {editingId ? "Update Notification" : "Send Notification"}
+            </button>
+            {editingId && (
+              <button
+                type="button"
+                className="cancel-btn"
+                onClick={() => {
+                  setEditingId(null);
+                  setNotificationTitle("");
+                  setNotificationBody("");
+                }}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+
+      {/* All Notifications */}
+      <div className="notification-list">
+        <h3>All Notifications</h3>
+
+
+        {notifications.length === 0 ? (
+          <p>No notifications found.</p>
+        ) : (
+          notifications.map((notification) => (
+            <div
+              key={notification._id}
+              className="notification-card"
+            >
+              <h4>{notification.notificationTitle}</h4>
+              <p>{notification.notificationBody}</p>
+
+              {user?.role === "admin" && (
+                <div className="notification-actions">
+                  <button
+                    className="update-btn"
+                    onClick={() => handleEdit(notification)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() =>
+                      confirmDelete(notification.notificationId)
+                    }
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }
 
-export default MakeVillageAdmin;
+export default Notifications;
