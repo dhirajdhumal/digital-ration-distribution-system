@@ -6,7 +6,7 @@ exports.getAllComplaints = async (req, res) => {
         if (req.user.role !== 'admin') {
             return res.status(403).json({ message: 'Access denied' });
         }
-        const complaints = await Complaint.find().populate('user', 'name email');
+        const complaints = await Complaint.find().populate('user', 'name email role');
         res.status(200).json(complaints);
     } catch (error) {
         console.error(error);

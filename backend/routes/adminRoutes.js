@@ -43,7 +43,7 @@ router.post('/make-village-admin', protect, adminOnly, makeVillageAdmin);
 router
   .route('/notifications')
   .post(protect, adminOnly, createNotification)
-  .get(protect, adminOnly, getAllNotifications);
+  .get(protect, getAllNotifications);
 
 router
   .route('/notifications/:id')

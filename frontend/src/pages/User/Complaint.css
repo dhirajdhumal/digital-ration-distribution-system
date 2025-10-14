@@ -1,0 +1,160 @@
+.notifications-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Sections */
+.notification-form,
+.notification-list {
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+/* Headings */
+h2, h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #0f4c91;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Form fields */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #1a1a1a;
+}
+
+input,
+textarea {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: #eef4ff;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* Buttons */
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #1565c0;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0d47a1;
+}
+
+button:disabled {
+  background-color: #90caf9;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background-color: #757575;
+}
+
+.delete-btn {
+  background-color: #d32f2f;
+}
+
+.update-btn {
+  background-color: #1565c0;
+}
+
+/* Alerts */
+.alert {
+  position: relative;
+  padding: 10px 40px 10px 10px;
+  
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.alert.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.alert.error {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: inherit;
+}
+
+
+/* Notification cards */
+.notification-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 15px;
+  background-color: #eef4ff;
+}
+
+.notification-card h4 {
+  margin: 0 0 10px;
+  color: #1565c0;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .notifications-container {
+    padding: 15px;
+  }
+
+  .notification-form,
+  .notification-list {
+    padding: 20px;
+  }
+}
