@@ -1,4 +1,4 @@
-**Digital Ration Distribution System GitHub Repo**
+**Digital Ration Distribution System**
 
 • Developed a MERN-stack web application to digitalize government ration distribution, featuring a secure
 authentication system using JWT and bcrypt for users, admins, and officers. Built a scalable RESTful API with
