@@ -8,4 +8,4 @@ intuitive React frontend that allows users to view ration details, receive schem
 complaints, and manage collection time-slots. Implemented an admin dashboard for monitoring distribution
 workflows, verifying complaints, and ensuring transparent stock management.
 
-• **Tech Stack:** MongoDB, Express.js, React, Node.js (MERN), Material-UI, JWT, Axios, Bcrypt.js
+**Tech Stack:** MongoDB, Express.js, React, Node.js (MERN), Material-UI, JWT, Axios, Bcrypt.js
