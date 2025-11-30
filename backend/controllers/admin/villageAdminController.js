@@ -2,19 +2,19 @@ const User = require('../../models/User');
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password");
+    const users = await User.find({ role: "user" }).select("-password");
 
-    // Extract unique roles from users
-    const roles = [...new Set(users.map((u) => u.role))].map((r) => ({ name: r }));
+    const roles = ["user"]; // since you are filtering only 'user'
 
     res.status(200).json({
       users,
-      roles
     });
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // controllers/adminController.js
 exports.makeVillageAdmin = async (req, res) => {

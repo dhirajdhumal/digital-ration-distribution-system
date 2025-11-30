@@ -11,9 +11,12 @@ const {
 
 const {
   createStock,
+  updateStockQuantity,
   allocateStockToVillageAdmin,
   getAllStocks,
-  getAllAllocatedStocks
+  getAllAllocatedStocks,
+  allocateStockToUser,
+  getAllUserAllocatedStocks
 } = require('../controllers/admin/stockController');
 
 const {
@@ -33,7 +36,7 @@ const { protect, adminOnly } = require('../middleware/authMiddleware');
    👤 VILLAGE ADMIN MANAGEMENT
 ================================ */
 router.get('/village-admins', protect, adminOnly, getVillageAdmins);
-router.get('/users', protect, adminOnly, getAllUsers);
+router.get('/users', protect,  getAllUsers);
 router.post('/make-village-admin', protect, adminOnly, makeVillageAdmin);
 
 
@@ -54,11 +57,14 @@ router
    📦 STOCK MANAGEMENT
 ================================ */
 router.post('/stocks', protect, adminOnly, createStock);
-router.get('/stocks', protect, adminOnly, getAllStocks);
+router.put('/stocks/:stockId', protect, updateStockQuantity);
+router.get('/stocks', protect,  getAllStocks);
 
-router.post('/stocks/allocate', protect, adminOnly, allocateStockToVillageAdmin);
+router.post('/stocks/allocate', protect, allocateStockToVillageAdmin);
+router.post('/stocks/allocate/users', protect, allocateStockToUser);
 // Get all allocations
-router.get("/allocated-stocks", protect, adminOnly, getAllAllocatedStocks);
+router.get("/allocated-stocks", protect,  getAllAllocatedStocks);
+router.get("/allocated-stocks/users", protect,  getAllAllocatedStocks);
 
 /* ================================
    🧾 COMPLAINT MANAGEMENT

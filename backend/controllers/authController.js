@@ -12,7 +12,7 @@ const generateToken = (id) => {
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, village } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const user = await User.create({ name, email, password, role: 'user' });
+    const user = await User.create({ name, email, password, role: 'user', village });
 
     if (user) {
       res.status(201).json({
@@ -29,6 +29,7 @@ const registerUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        village: user.village,
         token: generateToken(user._id),
       });
     } else {

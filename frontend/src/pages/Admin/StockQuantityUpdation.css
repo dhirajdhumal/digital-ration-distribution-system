@@ -1,0 +1,41 @@
+.stock-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.stock-container h1 {
+  text-align: center;
+  color: #1565c0;
+  margin-bottom: 20px;
+}
+
+.stock-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.stock-container li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.stock-container button {
+  margin-left: 8px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  background: #1565c0;
+  color: white;
+  cursor: pointer;
+}
+
+.stock-container button:hover {
+  background: #0d47a1;
+}

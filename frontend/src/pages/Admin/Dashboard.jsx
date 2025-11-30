@@ -11,7 +11,8 @@ function Dashboard() {
         <div>
             <h1 style={{textAlign: 'center',marginTop: '50px', marginBottom: '50px'}}>Everything here For You {user?.name || "Admin"}</h1>
             <div className='adminCard'>
-                <div className="adminPanel">
+                
+            <div className="adminPanel">
                 <h1>Distribute ration</h1>
                 <h4>Allocate stock to Village Admin</h4>
                 <button onClick={() => navigate('/admin/allocate-stock')}>Allocate</button>
@@ -38,7 +39,13 @@ function Dashboard() {
             <div className="adminPanel">
                 <h1>Make Village Admin</h1>
                 <h4>Assign Village Admin Role</h4>
-                <button onClick={() => navigate('/admin/make-village-admin')}>View</button>
+                <button onClick={() => navigate('/admin/make-village-admin')}>Assign</button>
+            </div>
+
+            <div className="adminPanel">
+                <h1>Update Stock Quantity</h1>
+                <h4>Update the quantity of stock items</h4>
+                <button onClick={() => navigate('/admin/update-stock-quantity')}>Update Here</button>
             </div>
 
             </div>

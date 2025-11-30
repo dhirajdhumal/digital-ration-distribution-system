@@ -91,7 +91,7 @@ useEffect(() => {
               <option value="">Select a User</option>
               {users.map((user) => (
                 <option key={user._id} value={user._id}>
-                  {user.name}
+                  {user.name} ({user.village})
                 </option>
               ))}
             </select>

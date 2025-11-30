@@ -36,7 +36,7 @@ function Complaints() {
               <p>{notification.description}</p>
               {notification.user && (
                 <p className="complaint-user">
-                  <strong>Username - </strong> {notification.user.name} ({notification.user.email}) ({notification.user.role})
+                  <strong>Username - </strong> {notification.user.name} ({notification.user.email}) 
                 </p>
               )}
             </div>

@@ -5,6 +5,7 @@ import AllocatedStock from "./AllocatedStock";
 import Notifications from "./Notifications";
 import Complaints from "./Complaints";
 import MakeVillageAdmin from "./MakeVillageAdmin";
+import StockQuantityUpdation from "./StockQuantityUpdation";
 
 function AdminRoutes() {
     return (
@@ -15,6 +16,7 @@ function AdminRoutes() {
             <Route path="notifications" element={<Notifications />} />
             <Route path="complaints" element={<Complaints />} />
             <Route path="make-village-admin" element={<MakeVillageAdmin />} />
+            <Route path="update-stock-quantity" element={<StockQuantityUpdation />} />
 
         </Routes>
     );

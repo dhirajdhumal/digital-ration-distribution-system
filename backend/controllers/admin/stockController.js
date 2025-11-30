@@ -44,6 +44,34 @@ exports.createStock = async (req, res) => {
   }
 };
 
+//update stock quantity
+exports.updateStockQuantity = async (req, res) => {
+  try{
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    const { stockId } = req.params;
+    const { quantity } = req.body;
+    const qtyToUpdate = Number(quantity);
+    if (isNaN(qtyToUpdate) || qtyToUpdate < 0) {
+      return res.status(400).json({ message: 'Quantity must be a non-negative number' });
+    }
+    const stock = await Stock.findById(stockId);
+    if (!stock) {
+      return res.status(404).json({ message: 'Stock item not found' });
+    }
+    stock.quantity = qtyToUpdate;
+    const updatedStock = await stock.save();
+    res.status(200).json({
+      message: 'Stock quantity updated successfully',
+      stock: updatedStock
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 //get all stocks details
 exports.getAllStocks = async (req, res) => {
@@ -55,6 +83,64 @@ exports.getAllStocks = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 };
+
+
+
+// Allocate stock to a normal user
+exports.allocateStockToUser = async (req, res) => {
+  try {
+    const { userId, stockId, quantity, unit } = req.body;
+    const qtyToAdd = Number(quantity); // ensure numeric
+
+    // 1️⃣ Check if stock exists
+    const stock = await Stock.findById(stockId);
+    if (!stock) return res.status(404).json({ message: "Stock item not found" });
+
+    // 2️⃣ Check if enough stock is available
+    if (stock.quantity < qtyToAdd) {
+      return res.status(400).json({ message: "Not enough stock available" });
+    }
+
+    // 3️⃣ Find the user
+    const user = await User.findById(userId);
+    if (!user || user.role !== "user") {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // 4️⃣ Check if stock is already allocated
+    let allocation = user.allocatedStock.find(
+      (s) => s.stockId.toString() === stockId
+    );
+
+    if (allocation) {
+      // ✅ Update existing allocation
+      allocation.quantity += qtyToAdd;
+      allocation.unit = unit;
+      allocation.allocatedAt = new Date();
+    } else {
+      // ✅ Add new allocation
+      allocation = { stockId, quantity: qtyToAdd, unit };
+      user.allocatedStock.push(allocation);
+    }
+
+    // 5️⃣ Deduct from stock
+    stock.quantity -= qtyToAdd;
+    await stock.save();
+
+    // 6️⃣ Save user allocation
+    await user.save();
+
+    res.status(200).json({
+      message: "Stock allocated to user successfully",
+      allocatedStock: allocation,
+      remainingStock: stock.quantity
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 
 exports.allocateStockToVillageAdmin = async (req, res) => {
@@ -137,3 +223,4 @@ exports.getAllAllocatedStocks = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch allocations" });
   }
 };
+

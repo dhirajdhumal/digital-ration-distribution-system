@@ -1,0 +1,63 @@
+.allocated-stock-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Wrapper for all cards */
+.allocation-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+/* Each admin card */
+.admin-card {
+  flex: 0 1 360px;
+  min-width: 260px;
+  background-color: #b3d9ff; /* Optimized: brighter blue */
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.admin-card h3 {
+  color: #0b3d91; /* Optimized: darker blue for contrast */
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* Stock list */
+.admin-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.admin-card li {
+  margin-bottom: 8px;
+  background-color: #e1f3ff; /* Optimized: slightly darker than card */
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #1a1a1a; /* Optimized: darker text for readability */
+  text-align: left;
+}
+
+/* Title at top */
+.allocated-stock-container h2 {
+  text-align: center;
+  color: #0f4c91; /* Optimized: rich header blue */
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+}

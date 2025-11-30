@@ -8,6 +8,7 @@ const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [village, setVillage] = useState('');
     const { register } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const Register = () => {
         setError(''); // Clear previous errors before a new submission
 
         try {
-            await register(name, email, password);
+            await register(name, email, password, village);
             navigate('/dashboard');
         } catch (err) {
             // Get the specific message from the server's response
@@ -53,6 +54,16 @@ const Register = () => {
                         onChange={(e) => setName(e.target.value)}
                         autoFocus
                     />
+
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Village"
+                        value={village}
+                        onChange={(e) => setVillage(e.target.value)}
+                    />
+
                     <TextField
                         margin="normal"
                         required
@@ -71,6 +82,7 @@ const Register = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    
                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         Register
                     </Button>
