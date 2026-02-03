@@ -14,15 +14,20 @@ const protect = async (req, res, next) => {
 
             // Get user from the token
             req.user = await User.findById(decoded.id).select('-password');
-            next();
+            
+            if (!req.user) {
+                return res.status(401).json({ message: 'User not found' });
+            }
+            
+            return next();
         } catch (error) {
-            console.error(error);
-            res.status(401).json({ message: 'Not authorized, token failed' });
+            console.error('Token verification error:', error.message);
+            return res.status(401).json({ message: 'Not authorized, token failed' });
         }
     }
 
     if (!token) {
-        res.status(401).json({ message: 'Not authorized, no token' });
+        return res.status(401).json({ message: 'Not authorized, no token' });
     }
 };
 
@@ -35,7 +40,7 @@ const adminOnly = (req, res, next) => {
 };
 
 const villageAdminOnly = (req, res, next) => {
-  if (req.user && req.user.role === "villageadmin") {
+  if (req.user && req.user.role === "villageAdmin") {
     next();
   } else {
     res.status(403).json({ message: "Village Admin access only" });

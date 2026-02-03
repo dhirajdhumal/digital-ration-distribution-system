@@ -197,6 +197,98 @@ exports.allocateStockToVillageAdmin = async (req, res) => {
   }
 };
 
+// Allocate multiple stocks to village admin at once (Bulk Allocation)
+exports.allocateStockToVillageAdminBulk = async (req, res) => {
+  try {
+    const { villageAdminId, allocations } = req.body;
+
+    if (!allocations || allocations.length === 0) {
+      return res.status(400).json({ message: 'No stock items to allocate' });
+    }
+
+    // Find village admin
+    const admin = await User.findById(villageAdminId);
+    if (!admin || admin.role !== "villageAdmin") {
+      return res.status(404).json({ message: "Village admin not found" });
+    }
+
+    // Validate all allocations first
+    const validatedAllocations = [];
+    for (const allocation of allocations) {
+      const { stockId, quantity, unit } = allocation;
+      const qtyToAdd = Number(quantity);
+
+      if (!stockId || !qtyToAdd || qtyToAdd <= 0) {
+        continue; // Skip invalid entries
+      }
+
+      // Check if stock exists
+      const stock = await Stock.findById(stockId);
+      if (!stock) {
+        return res.status(404).json({ 
+          message: `Stock item not found` 
+        });
+      }
+
+      if (stock.quantity < qtyToAdd) {
+        return res.status(400).json({ 
+          message: `Not enough stock available for one of the items` 
+        });
+      }
+
+      validatedAllocations.push({
+        stockId,
+        quantity: qtyToAdd,
+        unit,
+        stock
+      });
+    }
+
+    if (validatedAllocations.length === 0) {
+      return res.status(400).json({ message: 'No valid stock items to allocate' });
+    }
+
+    // Process all allocations
+    const updatedStocks = [];
+    for (const allocation of validatedAllocations) {
+      const { stockId, quantity, unit, stock } = allocation;
+
+      // Check if stock is already allocated to admin
+      let adminAllocation = admin.allocatedStock.find(
+        (s) => s.stockId.toString() === stockId
+      );
+
+      if (adminAllocation) {
+        adminAllocation.quantity += quantity;
+        adminAllocation.unit = unit;
+        adminAllocation.allocatedAt = new Date();
+      } else {
+        adminAllocation = { stockId, quantity, unit };
+        admin.allocatedStock.push(adminAllocation);
+      }
+
+      // Deduct from stock
+      stock.quantity -= quantity;
+      await stock.save();
+      
+      updatedStocks.push({
+        stockId,
+        remainingQuantity: stock.quantity
+      });
+    }
+
+    await admin.save();
+
+    res.status(200).json({
+      message: `Successfully allocated ${validatedAllocations.length} stock item(s) to village admin`,
+      updatedStocks
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 // Get all allocations (for admin dashboard)
 exports.getAllAllocatedStocks = async (req, res) => {
@@ -224,3 +316,72 @@ exports.getAllAllocatedStocks = async (req, res) => {
   }
 };
 
+
+
+// Get all user allocations (for admin dashboard)
+exports.getAllUserAllocatedStocks = async (req, res) => {
+  try {
+    const users = await User.find({ role: "user" }).populate("allocatedStock.stockId", "item unit");
+
+    const allocations = [];
+    users.forEach(user => {
+      user.allocatedStock.forEach(stock => {
+        allocations.push({
+          userId: user._id,
+          userName: user.name,
+          userVillage: user.village,
+          stockItem: stock.stockId.item,
+          quantity: stock.quantity,
+          unit: stock.unit,
+          allocatedAt: stock.allocatedAt,
+        });
+      });
+    });
+
+    res.json(allocations);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch user allocations" });
+  }
+};
+
+
+// Get expiring stocks (within 30 days)
+exports.getExpiringStocks = async (req, res) => {
+  try {
+    const thirtyDaysFromNow = new Date();
+    thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
+
+    const expiringStocks = await Stock.find({
+      expiryDate: {
+        $exists: true,
+        $ne: null,
+        $gte: new Date(),
+        $lte: thirtyDaysFromNow
+      }
+    }).sort({ expiryDate: 1 });
+
+    res.status(200).json(expiringStocks);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+// Get expired stocks
+exports.getExpiredStocks = async (req, res) => {
+  try {
+    const expiredStocks = await Stock.find({
+      expiryDate: {
+        $exists: true,
+        $ne: null,
+        $lt: new Date()
+      }
+    }).sort({ expiryDate: -1 });
+
+    res.status(200).json(expiredStocks);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};

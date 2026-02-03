@@ -13,6 +13,8 @@ dotenv.config();
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const villageAdminRoutes = require('./routes/villageAdminRoutes');
+const timeSlotRoutes = require('./routes/timeSlotRoutes');
 
 const app = express();
 
@@ -32,6 +34,8 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/user', upload.none(), userRoutes);
 app.use('/api/admin', upload.none(), adminRoutes);
+app.use('/api/village-admin', upload.none(), villageAdminRoutes);
+app.use('/api/timeslots', upload.none(), timeSlotRoutes);
 
 const PORT = process.env.PORT || 5001;
 

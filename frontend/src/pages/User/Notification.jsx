@@ -8,7 +8,7 @@ function Notification() {
 
   const fetchNotifications = async () => {
     try {
-      const res = await api.get("/admin/notifications");
+      const res = await api.get("/user/notifications");
       setNotifications(res.data);
     } catch (err) {
       console.error("Error fetching notifications", err);

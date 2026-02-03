@@ -19,9 +19,15 @@ function Dashboard() {
             </div>
 
             <div className="adminPanel">
-                <h1>Allocated Stock</h1>
-                <h4>View Allocated Stock Details</h4>
-                <button onClick={() => navigate('/village-admin/allocated-stock')}>View</button>
+                <h1>Allocation Records</h1>
+                <h4>View allocation history</h4>
+                <button onClick={() => navigate('/village-admin/allocation-records')}>View Records</button>
+            </div>
+
+            <div className="adminPanel">
+                <h1>Manage Time Slots</h1>
+                <h4>Create slots and assign users</h4>
+                <button onClick={() => navigate('/village-admin/timeslots')}>Manage</button>
             </div>
 
             </div>

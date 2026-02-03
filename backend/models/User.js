@@ -17,6 +17,12 @@ const UserSchema = new mongoose.Schema(
         allocatedAt: { type: Date, default: Date.now },
       },
     ],
+
+    bookedTimeSlot: {
+      timeSlotId: { type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot' },
+      bookedAt: { type: Date },
+      status: { type: String, enum: ['booked', 'completed', 'cancelled'], default: 'booked' },
+    },
   },
   { timestamps: true }
 );

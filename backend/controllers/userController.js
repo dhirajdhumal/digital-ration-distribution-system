@@ -50,7 +50,7 @@ exports.getNotificationById = async (req, res) => {
 // @route   GET /api/user/complaints/my
 // @access  Private
 exports.getComplaintsByUser = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user._id;
 
   try {
     const complaints = await Complaint.find({ user: userId });
@@ -58,5 +58,36 @@ exports.getComplaintsByUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+// 📦 Get user's allocated stocks
+// @route   GET /api/user/allocated-stocks
+// @access  Private
+exports.getUserAllocatedStocks = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId).populate('allocatedStock.stockId', 'item unit price');
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(user.allocatedStock);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+// 📢 Get all notifications
+// @route   GET /api/user/notifications
+// @access  Private
+exports.getAllNotifications = async (req, res) => {
+  try {
+    const notifications = await Notification.find();
+    res.status(200).json(notifications);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

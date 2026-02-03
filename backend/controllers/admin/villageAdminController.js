@@ -4,10 +4,14 @@ exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({ role: "user" }).select("-password");
 
-    const roles = ["user"]; // since you are filtering only 'user'
+    const roles = [
+      { name: "villageAdmin", label: "Village Admin" },
+      { name: "admin", label: "Admin" }
+    ];
 
     res.status(200).json({
       users,
+      roles
     });
 
   } catch (err) {

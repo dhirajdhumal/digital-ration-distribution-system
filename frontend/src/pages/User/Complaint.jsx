@@ -15,7 +15,7 @@ function Complaint() {
       const res = await api.get("/user/complaints/my");
       setComplaints(res.data);
     } catch (err) {
-      console.error9("Error fetching Complaints", err);
+      console.error("Error fetching Complaints", err);
     } finally {
       setLoading(false);
     }
@@ -82,6 +82,20 @@ function Complaint() {
             <div key={complaint._id} className="notification-card">
               <h4>{complaint.title}</h4>
               <p>{complaint.description}</p>
+              <p>
+                <strong>Status: </strong>
+                <span
+                  style={{
+                    color: complaint.status === "resolved" ? "green" : "orange",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {complaint.status}
+                </span>
+              </p>
+              <p style={{ fontSize: "0.85rem", color: "#666" }}>
+                Submitted: {new Date(complaint.createdAt).toLocaleDateString()}
+              </p>
             </div>
           ))
         )}

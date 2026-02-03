@@ -11,7 +11,13 @@ function Dashboard() {
         <div>
             <h1 style={{textAlign: 'center',marginTop: '50px', marginBottom: '50px'}}>Everything here For You {user?.name || "Admin"}</h1>
             <div className='adminCard'>
-                
+            
+            <div className="adminPanel">
+                <h1>Create Stock</h1>
+                <h4>Add new stock items to inventory</h4>
+                <button onClick={() => navigate('/admin/create-stock')}>Create</button>
+            </div>
+
             <div className="adminPanel">
                 <h1>Distribute ration</h1>
                 <h4>Allocate stock to Village Admin</h4>
@@ -19,9 +25,9 @@ function Dashboard() {
             </div>
 
             <div className="adminPanel">
-                <h1>Allocated Stock</h1>
-                <h4>View Allocated Stock Details</h4>
-                <button onClick={() => navigate('/admin/allocated-stock')}>View</button>
+                <h1>Distribution Records</h1>
+                <h4>View allocation history</h4>
+                <button onClick={() => navigate('/admin/allocation-records')}>View Records</button>
             </div>
 
             <div className="adminPanel">
@@ -37,9 +43,9 @@ function Dashboard() {
             </div>
 
             <div className="adminPanel">
-                <h1>Make Village Admin</h1>
-                <h4>Assign Village Admin Role</h4>
-                <button onClick={() => navigate('/admin/make-village-admin')}>Assign</button>
+                <h1>Manage User Roles</h1>
+                <h4>Promote or demote users</h4>
+                <button onClick={() => navigate('/admin/make-village-admin')}>Manage</button>
             </div>
 
             <div className="adminPanel">

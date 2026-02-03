@@ -13,14 +13,18 @@ const {
   createStock,
   updateStockQuantity,
   allocateStockToVillageAdmin,
+  allocateStockToVillageAdminBulk,
   getAllStocks,
   getAllAllocatedStocks,
   allocateStockToUser,
-  getAllUserAllocatedStocks
+  getAllUserAllocatedStocks,
+  getExpiringStocks,
+  getExpiredStocks
 } = require('../controllers/admin/stockController');
 
 const {
-  getAllComplaints
+  getAllComplaints,
+  updateComplaintStatus
 } = require('../controllers/admin/complaintController');
 
 const {
@@ -59,16 +63,20 @@ router
 router.post('/stocks', protect, adminOnly, createStock);
 router.put('/stocks/:stockId', protect, updateStockQuantity);
 router.get('/stocks', protect,  getAllStocks);
+router.get('/stocks/expiring', protect, adminOnly, getExpiringStocks);
+router.get('/stocks/expired', protect, adminOnly, getExpiredStocks);
 
 router.post('/stocks/allocate', protect, allocateStockToVillageAdmin);
+router.post('/stocks/allocate-bulk', protect, adminOnly, allocateStockToVillageAdminBulk);
 router.post('/stocks/allocate/users', protect, allocateStockToUser);
 // Get all allocations
-router.get("/allocated-stocks", protect,  getAllAllocatedStocks);
-router.get("/allocated-stocks/users", protect,  getAllAllocatedStocks);
+router.get("/allocated-stocks", protect, getAllAllocatedStocks);
+router.get("/allocated-stocks/users", protect, getAllUserAllocatedStocks);
 
 /* ================================
    🧾 COMPLAINT MANAGEMENT
 ================================ */
 router.get('/complaints', protect, adminOnly, getAllComplaints);
+router.put('/complaints/:id/status', protect, adminOnly, updateComplaintStatus);
 
 module.exports = router;
