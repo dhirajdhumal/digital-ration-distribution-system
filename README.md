@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Digital Ration Distribution System
 
 A comprehensive MERN stack web application designed to digitalize government ration distribution with secure authentication, role-based access control, and transparent stock management. Built using **MVC (Model-View-Controller)** architecture for maintainability and scalability.
@@ -312,3 +313,42 @@ Contributions, issues, and feature requests are welcome!
 ## 📞 Support
 
 For support, please create an issue in the repository.
+=======
+📌 Digital Ration Distribution System
+
+A full-stack MERN web application designed to digitalize and streamline the government ration distribution process with a focus on security, transparency, and efficiency.
+
+🚀 Features
+
+Secure user authentication using JWT & bcrypt
+
+Role-based access for Users, Admins, and Officers
+
+Ration allocation and real-time stock tracking
+
+Scheme announcements and notifications
+
+Fraud and complaint management system
+
+Time-slot scheduling to avoid overcrowding
+
+Admin dashboard for monitoring workflows and verification
+
+🛠️ Tech Stack
+
+Frontend: React.js, HTML, CSS, JavaScript
+
+Backend: Node.js, Express.js
+
+Database: MongoDB
+
+Security: JWT, bcrypt
+
+📈 Impact
+
+Reduced manual ration management workload by 40%+
+
+Improved complaint handling efficiency by 30%
+
+Enhanced transparency and accountability in stock distribution
+>>>>>>> f5a9768f8d82475282254decaa4c3d1ae5fa0ecf
