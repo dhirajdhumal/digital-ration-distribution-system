@@ -9,6 +9,11 @@ const protect = async (req, res, next) => {
             // Get token from header
             token = req.headers.authorization.split(' ')[1];
 
+            // Check if token exists and is not empty
+            if (!token || token === 'undefined' || token === 'null') {
+                return res.status(401).json({ message: 'Not authorized, invalid token' });
+            }
+
             // Verify token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
