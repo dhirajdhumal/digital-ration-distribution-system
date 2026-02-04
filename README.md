@@ -1,141 +1,219 @@
-<<<<<<< HEAD
-# Digital Ration Distribution System
+# 🌾 Digital Ration Distribution System
 
-A comprehensive MERN stack web application designed to digitalize government ration distribution with secure authentication, role-based access control, and transparent stock management. Built using **MVC (Model-View-Controller)** architecture for maintainability and scalability.
+<div align="center">
 
-## 🏗️ Architecture
+![MERN Stack](https://img.shields.io/badge/Stack-MERN-green?style=for-the-badge)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
 
-This project follows the **MVC (Model-View-Controller)** design pattern:
+**A comprehensive full-stack web application to digitalize and automate the Public Distribution System (PDS) for efficient ration management.**
 
-- **Model** (MongoDB/Mongoose): Data structure, schema validation, and database operations
-- **View** (React): User interface, components, and presentation logic  
-- **Controller** (Express): Business logic, request handling, and API endpoints
+[Features](#-features) • [Tech Stack](#️-tech-stack) • [Installation](#-installation) • [API Documentation](#-api-endpoints) • [Architecture](#️-architecture)
+
+</div>
+
+---
+
+## 📖 About The Project
+
+The Digital Ration Distribution System is a MERN stack application designed to modernize government ration distribution processes. It replaces manual workflows with a secure, role-based digital platform that ensures transparency, efficiency, and accountability in ration allocation and distribution.
+
+### 🎯 Key Highlights
+
+- **MVC Architecture** - Clean separation of concerns for maintainability
+- **Role-Based Access Control** - Three distinct user roles with specific permissions
+- **Bulk Operations** - Allocate multiple stock items simultaneously
+- **Real-Time Tracking** - Monitor stock levels, allocations, and expiry dates
+- **Time Slot Management** - Organized collection scheduling to reduce crowding
+- **Complete Audit Trail** - Track all allocations with date-based grouping
+
+---
+
+## 🏗️ MVC Architecture
+
+<div align="center">
 
 ```
-┌─────────────┐
-│    VIEW     │  React Components & Pages
-│   (React)   │  User Interface Layer
-└──────┬──────┘
-       │ API Calls (Axios)
-       ▼
-┌─────────────┐
-│ CONTROLLER  │  Express Routes & Controllers
-│  (Express)  │  Business Logic Layer
-└──────┬──────┘
-       │ Database Queries
-       ▼
-┌─────────────┐
-│    MODEL    │  Mongoose Schemas
-│  (MongoDB)  │  Data Layer
-└─────────────┘
+┌─────────────────────────────────────────────────────────┐
+│                    CLIENT (Browser)                      │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│                  VIEW LAYER (React)                      │
+│  • Components: Navbar, ProtectedRoute                   │
+│  • Pages: Dashboards, Forms, Tables                     │
+│  • Context API: State Management                        │
+│  • Axios: API Communication                             │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│              CONTROLLER LAYER (Express)                  │
+│  • Routes: API Endpoints                                │
+│  • Controllers: Business Logic                          │
+│  • Middleware: Authentication & Authorization           │
+└────────────────────────┬────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│               MODEL LAYER (MongoDB)                      │
+│  • Schemas: Data Structure                              │
+│  • Validation: Data Integrity                           │
+│  • Relationships: Data Associations                     │
+└─────────────────────────────────────────────────────────┘
 ```
 
-## 🚀 Features
+</div>
 
-### For Users
-- **Secure Authentication**: JWT-based authentication with bcrypt password hashing
-- **View Allocated Rations**: Check allocated items with quantities, prices, and expiry dates (grouped by allocation date)
-- **Time Slot Viewing**: View assigned collection time slot (assigned by village admin)
-- **File Complaints**: Report issues related to ration distribution
-- **Receive Notifications**: Stay updated with scheme announcements
+---
 
-### For Village Admins
-- **Bulk Stock Allocation**: Allocate multiple stock items (rice, oil, wheat) to users in one transaction
-- **Allocation Records**: View complete allocation history with date grouping and search functionality
-- **Time Slot Management**: Create, edit, and assign collection time slots to users
-- **User Management**: View users in village with allocation status indicators (✓ allocated, ⏳ pending)
-- **Remove Users from Slots**: Manage time slot assignments
+## ✨ Features
 
-### For Admins
-- **Stock Management**: Create stock items with expiry dates and batch numbers
-- **Bulk Allocation**: Allocate multiple stock items to village admins simultaneously
-- **Distribution Records**: View complete allocation history for all village admins
-- **User Role Management**: Promote users to village admin or demote back to user
-- **Complaint Handling**: View and update complaint status (pending/resolved/rejected)
-- **Notification System**: Send scheme updates and announcements to all users
-- **Stock Updates**: Update stock quantities in real-time
+<table>
+<tr>
+<td width="33%" valign="top">
+
+### 👤 For Users
+- ✅ Secure JWT Authentication
+- ✅ View Allocated Rations (grouped by date)
+- ✅ View Assigned Time Slots
+- ✅ File Complaints
+- ✅ Receive Notifications
+- ✅ Expiry Date Tracking
+
+</td>
+<td width="33%" valign="top">
+
+### 🏘️ For Village Admins
+- ✅ Bulk Stock Allocation
+- ✅ Allocation Records
+- ✅ Time Slot Management
+- ✅ User Assignment
+- ✅ Village User Management
+- ✅ Status Indicators
+
+</td>
+<td width="33%" valign="top">
+
+### 👨‍💼 For Admins
+- ✅ Stock Management
+- ✅ Bulk Allocation to Village Admins
+- ✅ Distribution Records
+- ✅ User Role Management
+- ✅ Complaint Handling
+- ✅ Notification System
+
+</td>
+</tr>
+</table>
+
+---
 
 ## 🛠️ Tech Stack
 
-**Frontend:**
-- React.js 19.1.1 with Vite
-- React Router DOM 7.9.3
-- Context API for state management
-- Axios 1.12.2 for API calls
-- CSS3 for responsive styling
+<div align="center">
 
-**Backend:**
-- Node.js with Express.js 5.1.0
-- MongoDB with Mongoose 8.18.1
-- JWT for authentication
-- bcrypt.js for password hashing
-- RESTful API architecture
+| Category | Technologies |
+|----------|-------------|
+| **Frontend** | React 19.1.1, React Router DOM 7.9.3, Axios 1.12.2, Vite 7.1.7 |
+| **Backend** | Node.js, Express.js 5.1.0, JWT, bcrypt.js |
+| **Database** | MongoDB, Mongoose 8.18.1 |
+| **Architecture** | MVC Pattern, RESTful API |
+| **State Management** | Context API |
+| **Authentication** | JWT Tokens, bcrypt Password Hashing |
 
-## 📋 Prerequisites
+</div>
 
-- Node.js (v14 or higher)
-- MongoDB (local installation or MongoDB Atlas account)
-- npm or yarn package manager
+---
 
-## 🔧 Installation
+## 📦 Getting Started
 
-### 1. Clone the repository
-```bash
-git clone <repository-url>
-cd digital-ration-distribution
-```
+### Prerequisites
 
-### 2. Backend Setup
-```bash
-cd backend
-npm install
-```
+Before you begin, ensure you have the following installed:
+- **Node.js** (v14 or higher)
+- **MongoDB** (local installation or MongoDB Atlas account)
+- **npm** or **yarn** package manager
 
-Create a `.env` file in the backend directory:
-```env
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-PORT=5001
-```
+### Installation
 
-### 3. Frontend Setup
-```bash
-cd frontend
-npm install
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/dhirajdhumal/digital-ration-distribution-system.git
+   cd digital-ration-distribution-system
+   ```
 
-## 🚀 Running the Application
+2. **Backend Setup**
+   ```bash
+   cd backend
+   npm install
+   ```
+   
+   Create a `.env` file in the backend directory:
+   ```env
+   MONGO_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret_key
+   PORT=5001
+   ```
 
-### Start Backend Server
+3. **Frontend Setup**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+### Running the Application
+
+**Start Backend Server**
 ```bash
 cd backend
 npm run dev
 ```
-Backend will run on `http://localhost:5001`
+🚀 Backend runs on `http://localhost:5001`
 
-### Start Frontend Development Server
+**Start Frontend Development Server**
 ```bash
 cd frontend
 npm run dev
 ```
-Frontend will run on `http://localhost:5173`
+🚀 Frontend runs on `http://localhost:5173`
 
-## 👥 User Roles & Access
+---
 
-### Admin
-- **Creation**: Create manually in MongoDB with `role: "admin"`
-- **Access**: `/admin/*` routes
-- **Capabilities**: Full system control, stock management, user role management
+## 👥 User Roles
 
-### Village Admin
-- **Creation**: Promoted by Admin through "Manage User Roles" feature
-- **Access**: `/village-admin/*` routes
-- **Capabilities**: Manage local distribution, time slots, and users in their village
+<table>
+<tr>
+<th>Role</th>
+<th>Creation Method</th>
+<th>Access Routes</th>
+<th>Key Capabilities</th>
+</tr>
+<tr>
+<td><strong>Admin</strong></td>
+<td>Manual creation in MongoDB with <code>role: "admin"</code></td>
+<td><code>/admin/*</code></td>
+<td>Full system control, stock management, user role management</td>
+</tr>
+<tr>
+<td><strong>Village Admin</strong></td>
+<td>Promoted by Admin via "Manage User Roles"</td>
+<td><code>/village-admin/*</code></td>
+<td>Local distribution, time slots, village user management</td>
+</tr>
+<tr>
+<td><strong>User</strong></td>
+<td>Public registration at <code>/register</code></td>
+<td><code>/user/*</code></td>
+<td>View rations, view time slots, file complaints</td>
+</tr>
+</table>
 
-### User
-- **Registration**: Public registration available at `/register`
-- **Access**: `/user/*` routes
-- **Capabilities**: View rations, view time slots, file complaints, receive notifications
+---
 
 ## 📁 Project Structure (MVC Architecture)
 
@@ -201,18 +279,28 @@ digital-ration-distribution/
 
 ## 🔐 API Endpoints
 
-### Authentication
+<details>
+<summary><b>Authentication</b></summary>
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - Login user
 
-### User Routes (Protected)
+</details>
+
+<details>
+<summary><b>User Routes (Protected)</b></summary>
+
 - `GET /api/user/allocated-stocks` - Get user's allocated rations
 - `POST /api/user/complaints` - Create complaint
 - `GET /api/user/complaints/my` - Get user's complaints
 - `GET /api/user/notifications` - Get all notifications
 - `GET /api/timeslots/my-booking` - Get user's assigned time slot
 
-### Village Admin Routes (Protected)
+</details>
+
+<details>
+<summary><b>Village Admin Routes (Protected)</b></summary>
+
 - `GET /api/village-admin/allocated-stocks` - Get allocated stocks
 - `POST /api/village-admin/allocate-stock-bulk` - Bulk allocate stocks to users
 - `GET /api/village-admin/users` - Get users in village
@@ -221,7 +309,11 @@ digital-ration-distribution/
 - `POST /api/timeslots/remove` - Remove user from time slot
 - `GET /api/timeslots/village` - Get village time slots
 
-### Admin Routes (Protected)
+</details>
+
+<details>
+<summary><b>Admin Routes (Protected)</b></summary>
+
 - `POST /api/admin/stocks` - Create new stock
 - `PUT /api/admin/stocks/:stockId` - Update stock quantity
 - `GET /api/admin/stocks` - Get all stocks
@@ -232,123 +324,135 @@ digital-ration-distribution/
 - `GET /api/admin/complaints` - Get all complaints
 - `PUT /api/admin/complaints/:id/status` - Update complaint status
 
-## 🎨 Key Features Implemented
+</details>
 
-✅ **Authentication & Authorization**
-- JWT-based authentication with bcrypt password hashing
-- Role-based access control (Admin, Village Admin, User)
-- Protected routes with middleware
-- Auto token validation and cleanup
+---
 
-✅ **Stock Management**
-- Create stocks with expiry dates and batch numbers
-- Bulk allocation (multiple items at once)
-- Real-time stock quantity updates
-- Expiry date tracking with color coding
+## 🎨 Key Features
 
-✅ **Allocation System**
-- Bulk allocation for admins and village admins
-- Allocation records with date grouping
-- Status indicators (✓ allocated, ⏳ pending)
-- Search and filter functionality
+<div align="center">
 
-✅ **Time Slot Management**
-- Create and edit time slots (date, time, capacity)
-- Assign users to slots (village admin only)
-- View-only for users (no self-booking)
-- Capacity management with validation
+| Feature | Description |
+|---------|-------------|
+| 🔐 **Authentication** | JWT-based auth with bcrypt password hashing |
+| 📦 **Bulk Operations** | Allocate multiple items simultaneously |
+| 📊 **Allocation Records** | Complete history with date grouping |
+| ⏰ **Time Slot Management** | Create, edit, and assign collection slots |
+| 🎯 **Status Indicators** | Visual indicators (✓ allocated, ⏳ pending) |
+| 🔍 **Search & Filter** | Find users and records quickly |
+| 📅 **Expiry Tracking** | Color-coded expiry date alerts |
+| 🏘️ **Village Isolation** | Data segregation by village |
+| 📱 **Responsive Design** | Works on all screen sizes |
+| 🔒 **Role-Based Access** | Three-tier permission system |
 
-✅ **User Interface**
-- Responsive design for all screen sizes
-- Role-specific dashboards
-- Real-time status updates
-- Color-coded indicators and alerts
+</div>
 
-✅ **Additional Features**
-- Complaint management with status tracking
-- Notification system for announcements
-- Village-based data isolation
-- Complete audit trail for all operations
+---
 
-## 🔒 Security Features
+## 🔒 Security
 
-- JWT token authentication
-- Password hashing with bcrypt
-- Role-based authorization middleware
-- Protected API routes
-- Village-level data isolation
-- Input validation on frontend and backend
-- Auto token cleanup for invalid tokens
+- 🔐 JWT token authentication
+- 🔑 bcrypt password hashing
+- 🛡️ Role-based authorization middleware
+- 🚪 Protected API routes
+- 🏘️ Village-level data isolation
+- ✅ Input validation (frontend & backend)
+- 🧹 Auto token cleanup for invalid tokens
+
+---
 
 ## 🐛 Troubleshooting
 
-### Token Errors
+<details>
+<summary><b>Token Errors (jwt malformed)</b></summary>
+
 If you see "jwt malformed" errors:
 1. Clear browser localStorage: `localStorage.clear()`
 2. Restart both servers
 3. Login again with fresh credentials
 
-### Connection Issues
+</details>
+
+<details>
+<summary><b>Connection Issues</b></summary>
+
 - Ensure MongoDB is running
 - Check `.env` file has correct `MONGO_URI`
 - Verify ports 5001 (backend) and 5173 (frontend) are available
 
-### CORS Errors
+</details>
+
+<details>
+<summary><b>CORS Errors</b></summary>
+
 - Backend runs on `http://localhost:5001`
 - Frontend runs on `http://localhost:5173`
 - CORS is configured in `server.js`
 
-## 📝 License
+</details>
 
-This project is licensed under the ISC License.
+<details>
+<summary><b>Git Push Rejected</b></summary>
 
-## 👨‍💻 Author
+If you see "Updates were rejected" error:
+1. Pull remote changes: `git pull origin main`
+2. Resolve any merge conflicts
+3. Commit the merge: `git add . && git commit -m "Merge remote changes"`
+4. Push again: `git push -u origin main`
 
-Developed as a MERN stack project for digitalizing government ration distribution with MVC architecture.
+</details>
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+*Add your application screenshots here*
+
+</div>
+
+---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-## 📞 Support
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-For support, please create an issue in the repository.
-=======
-📌 Digital Ration Distribution System
+---
 
-A full-stack MERN web application designed to digitalize and streamline the government ration distribution process with a focus on security, transparency, and efficiency.
+## 📝 License
 
-🚀 Features
+Distributed under the ISC License. See `LICENSE` for more information.
 
-Secure user authentication using JWT & bcrypt
+---
 
-Role-based access for Users, Admins, and Officers
+## 👨‍💻 Author
 
-Ration allocation and real-time stock tracking
+**Dhiraj Dhumal**
 
-Scheme announcements and notifications
+- GitHub: [@dhirajdhumal](https://github.com/dhirajdhumal)
+- Project Link: [https://github.com/dhirajdhumal/digital-ration-distribution-system](https://github.com/dhirajdhumal/digital-ration-distribution-system)
 
-Fraud and complaint management system
+---
 
-Time-slot scheduling to avoid overcrowding
+## 🙏 Acknowledgments
 
-Admin dashboard for monitoring workflows and verification
+- Built with MERN Stack
+- Inspired by the need to digitalize Public Distribution System
+- Thanks to all contributors and supporters
 
-🛠️ Tech Stack
+---
 
-Frontend: React.js, HTML, CSS, JavaScript
+<div align="center">
 
-Backend: Node.js, Express.js
+**⭐ Star this repo if you find it helpful!**
 
-Database: MongoDB
+Made with ❤️ by Dhiraj Dhumal
 
-Security: JWT, bcrypt
-
-📈 Impact
-
-Reduced manual ration management workload by 40%+
-
-Improved complaint handling efficiency by 30%
-
-Enhanced transparency and accountability in stock distribution
->>>>>>> f5a9768f8d82475282254decaa4c3d1ae5fa0ecf
+</div>
