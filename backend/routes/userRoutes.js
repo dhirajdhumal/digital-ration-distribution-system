@@ -10,7 +10,9 @@ const {
   getComplaintsByUser,
   getNotificationById,
   getUserAllocatedStocks,
-  getAllNotifications
+  getAllNotifications,
+  markAllNotificationsAsRead,
+  getUnreadNotificationCount
 } = require('../controllers/userController');
 
 const { protect } = require('../middleware/authMiddleware');
@@ -18,11 +20,34 @@ const { protect } = require('../middleware/authMiddleware');
 // 🧾 Create a complaint (with optional file upload)
 router.post('/complaints', protect, upload.single('file'), createComplaint);
 
-// 📢 Get a single notification by ID
-router.get('/notifications/:id', protect, getNotificationById);
-
 // 📢 Get all notifications
-router.get('/notifications', protect, getAllNotifications);
+// Get unread notification count
+router.get(
+  '/notifications/unread-count',
+  protect,
+  getUnreadNotificationCount
+);
+
+// Mark all notifications as read
+router.post(
+  '/notifications/mark-all-read',
+  protect,
+  markAllNotificationsAsRead
+);
+
+// Get all notifications
+router.get(
+  '/notifications',
+  protect,
+  getAllNotifications
+);
+
+// Get a single notification by ID
+router.get(
+  '/notifications/:id',
+  protect,
+  getNotificationById
+);
 
 // 📋 Get logged-in user's complaints
 router.get('/complaints/my', protect, getComplaintsByUser);

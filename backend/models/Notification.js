@@ -14,7 +14,12 @@ const NotificationSchema = new mongoose.Schema({
     notificationBody: { 
         type: String, 
         required: true
+    },
+    isRead: {
+        type: Boolean,   
+        default: false
     }
+
 })
 
 module.exports = mongoose.model('Notification', NotificationSchema);

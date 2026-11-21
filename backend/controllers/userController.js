@@ -91,3 +91,47 @@ exports.getAllNotifications = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// ✅ Mark all notifications as read
+// @route   POST /api/user/notifications/mark-all-read
+// @access  Private
+
+exports.markAllNotificationsAsRead = async (req, res) => {
+  try {
+    await Notification.updateMany(
+      { isRead: { $ne: true } },
+      { $set: { isRead: true } }
+    );
+
+    res.status(200).json({
+      message: "All notifications marked as read",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Error marking all notifications as read",
+    });
+  }
+};
+
+// 🔢 Get unread notification count
+// @route   GET /api/user/notifications/unread-count
+// @access  Private
+
+exports.getUnreadNotificationCount = async (req, res) => {
+  try {
+    const count = await Notification.countDocuments({
+      isRead: { $ne: true },
+    });
+
+    res.status(200).json({
+      unreadCount: count,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Error fetching unread notification count",
+    });
+  }
+};
+
