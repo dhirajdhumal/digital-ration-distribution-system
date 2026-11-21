@@ -1,62 +1,130 @@
-.adminCard {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* center cards horizontally */
-  align-items: flex-start;
-  gap: 40px;               /* space between cards */
-  width: 100%;
-  padding: 40px 20px;
+/* System Admin Dashboard Styles */
+.system-admin-page .system-header {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
-/* Each admin panel card */
-.adminPanel {
-  flex: 0 1 400px;           /* base width */
-  min-width: 250px;
-  max-height: 250px;
-  background-color: #b3d9ff; /* Optimized card background */
-  padding: 25px;
-  border-radius: 10px;
-  text-align: center;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+.system-badge {
+  background: rgba(255, 255, 255, 0.25);
 }
 
-/* Headings inside cards */
-.adminPanel h1 {
-  color: #1565c0; /* Optimized heading blue */
+.system-circle {
+  border-color: #ffd700;
+  background: linear-gradient(135deg, #ffffff 0%, #ffe5e5 100%);
+}
+
+.stats-grid-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.system-stat {
+  border-left-color: #f5576c;
+}
+
+.system-stat:hover {
+  box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+}
+
+.system-stat .stat-value {
+  color: #f5576c;
+}
+
+/* Admin Section Groups */
+.admin-section-group {
+  margin-bottom: 3rem;
+}
+
+.group-title {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  padding-left: 1rem;
+  border-left: 4px solid #f5576c;
 }
 
-.adminPanel h4 {
-  color: #1a1a1a; /* Optimized subheading color */
-  font-size: 1rem;
-  font-weight: 500;
-  margin-top: 8px;
+.services-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
 }
 
-/* Optional icons or images */
-.adminPanel i,
-.adminPanel svg {
-  font-size: 2.2rem;
-  color: #1565c0; /* Optimized icon color */
-  margin-bottom: 12px;
+.system-card {
+  border-top-color: #f5576c;
+  padding: 1.5rem;
 }
 
-/* Responsive for mobile */
-@media (max-width: 768px) {
-  .adminCard {
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    padding: 20px;
+.system-card:hover {
+  border-top-color: #ffd700;
+  box-shadow: 0 15px 40px rgba(245, 87, 108, 0.3);
+}
+
+.service-icon-medium {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+}
+
+.service-title-small {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f5576c;
+  margin-bottom: 0.5rem;
+}
+
+.service-description-small {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.service-btn-small {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+.system-btn {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.system-info {
+  background: linear-gradient(135deg, #fff5f7 0%, #fff 100%);
+}
+
+.system-info-card {
+  border-color: #ffe5e9;
+}
+
+.system-info-card:hover {
+  border-color: #f5576c;
+}
+
+.system-info-card h4 {
+  color: #f5576c;
+}
+
+/* Responsive for Admin Dashboard */
+@media (max-width: 968px) {
+  .stats-grid-admin {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .adminPanel {
-    flex: 0 1 90%;
-    padding: 20px;
+  .services-grid-compact {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid-admin {
+    grid-template-columns: 1fr;
+  }
+
+  .services-grid-compact {
+    grid-template-columns: 1fr;
+  }
+
+  .group-title {
+    font-size: 1.25rem;
   }
 }

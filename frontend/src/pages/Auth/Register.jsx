@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-// Import the Alert component for displaying messages
-import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../../context/authContext';
+import './Auth.css';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -11,84 +10,101 @@ const Register = () => {
     const [village, setVillage] = useState('');
     const { register } = useContext(AuthContext);
     const navigate = useNavigate();
-
-    // Add a state to hold any error messages from the server
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Clear previous errors before a new submission
+        setError('');
+        setLoading(true);
 
         try {
             await register(name, email, password, village);
-            navigate('/dashboard');
+            navigate('/user/dashboard');
         } catch (err) {
-            // Get the specific message from the server's response
             const message = err.response?.data?.message || 'Registration failed. Please try again.';
-            // Set the error message so it can be displayed to the user
             setError(message);
-            console.error('Registration failed:', err);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <Container maxWidth="xs">
-            <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography component="h1" variant="h5">
-                    Sign Up
-                </Typography>
-                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                    {/* This line conditionally displays the Alert box only when an error exists */}
+        <div className="auth-page">
+            <div className="auth-container">
+                <div className="auth-header">
+                    <div className="emblem">🌾</div>
+                    <h1>Digital Ration Distribution System</h1>
+                    <p>Government of India</p>
+                </div>
+
+                <div className="auth-form">
+                    <h2>New Registration</h2>
+                    <p className="form-subtitle">Create your account to get started</p>
+
                     {error && (
-                        <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
-                            {error}
-                        </Alert>
+                        <div className="alert alert-error">
+                            ⚠️ {error}
+                        </div>
                     )}
 
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Full Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        autoFocus
-                    />
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label>Full Name</label>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Enter your full name"
+                                required
+                            />
+                        </div>
 
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Village"
-                        value={village}
-                        onChange={(e) => setVillage(e.target.value)}
-                    />
+                        <div className="form-group">
+                            <label>Village / Area</label>
+                            <input
+                                type="text"
+                                value={village}
+                                onChange={(e) => setVillage(e.target.value)}
+                                placeholder="Enter your village"
+                                required
+                            />
+                        </div>
 
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Email Address"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                        Register
-                    </Button>
-                </Box>
-            </Box>
-        </Container>
+                        <div className="form-group">
+                            <label>Email Address</label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Create a password"
+                                required
+                                minLength="6"
+                            />
+                        </div>
+
+                        <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+                            {loading ? 'Creating Account...' : 'Create Account'}
+                        </button>
+                    </form>
+
+                    <div className="auth-footer">
+                        <p>Already have an account? <Link to="/login">Sign In</Link></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

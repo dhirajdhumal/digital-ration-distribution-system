@@ -1,77 +1,154 @@
+/* Navbar - Matching Website UI */
 .navbar {
-  background-color: #1565c0; /* Primary blue */
-  color: #ffffff; /* Text color */
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.navbar a {
-  color: #ffffff; /* Links */
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   text-decoration: none;
-  margin: 0 15px;
-  font-weight: 500;
-}
-
-.navbar .logo {
-  font-size: 1.5rem;
+  color: #2d3748;
   font-weight: 700;
+  font-size: 1.25rem;
 }
 
-.navbar .nav-links {
+.logo-icon {
+  font-size: 2rem;
+}
+
+.logo-text {
+  color: #9381ff;
+}
+
+/* Menu */
+.navbar-menu {
   display: flex;
   align-items: center;
+  gap: 1.5rem;
 }
 
-.navbar .nav-links .active {
-  border-bottom: 2px solid #90caf9; /* Accent blue for active link */
-}
-
-.navbar .user-info {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-}
-
-.navbar .user-info span {
-  margin-right: 10px;
+.nav-link {
+  color: #2d3748;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s;
   font-weight: 500;
 }
 
-.navbar .user-info button {
-  background-color: #ffffff; /* Button background */
-  color: #1565c0; /* Button text color */
+.nav-link:hover {
+  background: #f8f7ff;
+  color: #9381ff;
+}
+
+/* User Section */
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid #e2e8f0;
+}
+
+.user-name {
+  color: #2d3748;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: #f8f7ff;
+  border-radius: 8px;
+}
+
+.btn-logout {
+  background: #9381ff;
+  color: white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s ease-in-out;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
-.navbar .user-info button:hover {
-  background-color: #cfe4fc; /* Hover light blue */
+.btn-logout:hover {
+  background: #b8b8ff;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .navbar {
+.btn-register {
+  background: #9381ff;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-register:hover {
+  background: #b8b8ff;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .navbar-container {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 20px;
+    gap: 1rem;
+    padding: 1rem;
   }
 
-  .navbar .nav-links {
+  .navbar-logo {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar-menu {
     flex-direction: column;
     width: 100%;
-    margin-top: 10px;
+    gap: 0.5rem;
   }
 
-  .navbar .nav-links a {
-    margin: 8px 0;
-  }
-
-  .navbar .user-info {
-    margin-left: 0;
-    margin-top: 10px;
+  .nav-link,
+  .btn-register {
     width: 100%;
-    justify-content: space-between;
+    text-align: center;
+  }
+
+  .navbar-user {
+    flex-direction: column;
+    width: 100%;
+    border-left: none;
+    border-top: 2px solid #e2e8f0;
+    padding-left: 0;
+    padding-top: 1rem;
+  }
+
+  .user-name,
+  .btn-logout {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  .logo-icon {
+    font-size: 1.5rem;
   }
 }

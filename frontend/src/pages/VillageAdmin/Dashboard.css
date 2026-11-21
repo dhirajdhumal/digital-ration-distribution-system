@@ -1,62 +1,71 @@
-.adminCard {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* center cards horizontally */
-  align-items: flex-start;
-  gap: 40px;               /* space between cards */
-  width: 100%;
-  padding: 40px 20px;
+/* Village Admin Dashboard Styles */
+.village-admin-page .admin-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Each admin panel card */
-.adminPanel {
-  flex: 0 1 400px;           /* base width */
-  min-width: 250px;
-  max-height: 250px;
-  background-color: #b3d9ff; /* Optimized card background */
-  padding: 25px;
-  border-radius: 10px;
+.admin-badge {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.admin-circle {
+  border-color: #ffd700;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+}
+
+.admin-stat {
+  border-left-color: #667eea;
+}
+
+.admin-stat:hover {
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.admin-stat .stat-value {
+  color: #667eea;
+}
+
+.admin-card {
+  border-top-color: #667eea;
+}
+
+.admin-card:hover {
+  border-top-color: #ffd700;
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+}
+
+.admin-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.admin-info {
+  background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+}
+
+.info-section-title {
   text-align: center;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Headings inside cards */
-.adminPanel h1 {
-  color: #1565c0; /* Optimized heading blue */
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.adminPanel h4 {
-  color: #1a1a1a; /* Optimized subheading color */
-  font-size: 1rem;
-  font-weight: 500;
-  margin-top: 8px;
+.admin-info-card {
+  border-color: #e0e7ff;
 }
 
-/* Optional icons or images */
-.adminPanel i,
-.adminPanel svg {
-  font-size: 2.2rem;
-  color: #1565c0; /* Optimized icon color */
-  margin-bottom: 12px;
+.admin-info-card:hover {
+  border-color: #667eea;
 }
 
-/* Responsive for mobile */
-@media (max-width: 768px) {
-  .adminCard {
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    padding: 20px;
-  }
+.admin-info-card h4 {
+  color: #667eea;
+}
 
-  .adminPanel {
-    flex: 0 1 90%;
-    padding: 20px;
-  }
+/* Admin Services Grid */
+.admin-services {
+  max-width: 1000px;
+  margin: 0 auto;
 }

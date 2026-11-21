@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../services/api";
-import "./Dashboard.css";
+import "./UserPages.css";
 
 function TimeSlotBooking() {
   const [myBooking, setMyBooking] = useState(null);
@@ -22,65 +22,43 @@ function TimeSlotBooking() {
   }, []);
 
   if (loading) {
-    return <div style={{ textAlign: "center", marginTop: "50px" }}>Loading...</div>;
+    return (
+      <div className="page-container">
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <p className="loading-text">Loading your time slot...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="notifications-container">
-      <h2 style={{ textAlign: "center", marginTop: "30px" }}>
-        My Time Slot Booking
-      </h2>
+    <div className="page-container">
+      <div className="page-header">
+        <h1 className="page-title">⏰ My Collection Time Slot</h1>
+        <p className="page-subtitle">View your assigned ration collection schedule</p>
+      </div>
 
-      <div style={{
-        backgroundColor: "#e3f2fd",
-        padding: "15px",
-        borderRadius: "8px",
-        marginBottom: "25px",
-        textAlign: "center"
-      }}>
-        <p style={{ margin: 0, color: "#1976d2", fontSize: "14px" }}>
-          ℹ️ Time slots are assigned by your village admin. You cannot book slots yourself.
+      <div className="info-box">
+        <span className="info-box-icon">ℹ️</span>
+        <p className="info-box-text">
+          Time slots are assigned by your village admin. You cannot book slots yourself. 
+          Please arrive at the scheduled time to collect your rations.
         </p>
       </div>
 
-      {/* Current Booking */}
       {myBooking && myBooking.status === "booked" && myBooking.timeSlotId ? (
-        <div style={{
-          border: "2px solid #4caf50",
-          borderRadius: "12px",
-          padding: "25px",
-          backgroundColor: "#f9fff9",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
-        }}>
-          <div style={{
-            backgroundColor: "#4caf50",
-            color: "white",
-            padding: "12px 20px",
-            borderRadius: "8px",
-            marginBottom: "20px",
-            textAlign: "center"
-          }}>
-            <h3 style={{ margin: 0, fontSize: "18px" }}>
+        <div className="slot-card">
+          <div className="slot-header">
+            <h3 style={{ margin: 0, fontSize: '1.25rem' }}>
               ✓ Your Assigned Time Slot
             </h3>
           </div>
 
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "15px",
-            marginBottom: "20px"
-          }}>
-            <div style={{
-              padding: "15px",
-              backgroundColor: "white",
-              borderRadius: "8px",
-              border: "1px solid #e0e0e0"
-            }}>
-              <div style={{ fontSize: "12px", color: "#666", marginBottom: "5px" }}>
-                📅 Date
-              </div>
-              <div style={{ fontSize: "16px", fontWeight: "bold", color: "#2c3e50" }}>
+          <div className="slot-details-grid">
+            <div className="slot-detail-box">
+              <div className="slot-detail-label">📅 Collection Date</div>
+              <div className="slot-detail-value">
                 {new Date(myBooking.timeSlotId.date).toLocaleDateString('en-US', {
                   weekday: 'long',
                   year: 'numeric',
@@ -90,94 +68,47 @@ function TimeSlotBooking() {
               </div>
             </div>
 
-            <div style={{
-              padding: "15px",
-              backgroundColor: "white",
-              borderRadius: "8px",
-              border: "1px solid #e0e0e0"
-            }}>
-              <div style={{ fontSize: "12px", color: "#666", marginBottom: "5px" }}>
-                🕐 Time
-              </div>
-              <div style={{ fontSize: "16px", fontWeight: "bold", color: "#2c3e50" }}>
+            <div className="slot-detail-box">
+              <div className="slot-detail-label">🕐 Time Slot</div>
+              <div className="slot-detail-value">
                 {myBooking.timeSlotId.startTime} - {myBooking.timeSlotId.endTime}
               </div>
             </div>
 
-            <div style={{
-              padding: "15px",
-              backgroundColor: "white",
-              borderRadius: "8px",
-              border: "1px solid #e0e0e0"
-            }}>
-              <div style={{ fontSize: "12px", color: "#666", marginBottom: "5px" }}>
-                📍 Village
-              </div>
-              <div style={{ fontSize: "16px", fontWeight: "bold", color: "#2c3e50" }}>
+            <div className="slot-detail-box">
+              <div className="slot-detail-label">📍 Location</div>
+              <div className="slot-detail-value">
                 {myBooking.timeSlotId.village}
               </div>
             </div>
-          </div>
 
-          <div style={{
-            padding: "15px",
-            backgroundColor: "#fff3e0",
-            borderRadius: "8px",
-            border: "1px solid #ffb74d"
-          }}>
-            <div style={{ fontSize: "12px", color: "#e65100", marginBottom: "5px" }}>
-              ⏰ Booked On
-            </div>
-            <div style={{ fontSize: "14px", color: "#e65100" }}>
-              {new Date(myBooking.bookedAt).toLocaleString('en-US', {
-                dateStyle: 'medium',
-                timeStyle: 'short'
-              })}
+            <div className="slot-detail-box">
+              <div className="slot-detail-label">⏰ Booked On</div>
+              <div className="slot-detail-value">
+                {new Date(myBooking.bookedAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric'
+                })}
+              </div>
             </div>
           </div>
 
-          <div style={{
-            marginTop: "20px",
-            padding: "15px",
-            backgroundColor: "#e8f5e9",
-            borderRadius: "8px",
-            textAlign: "center"
-          }}>
-            <p style={{ margin: 0, color: "#2e7d32", fontSize: "14px", fontWeight: "500" }}>
-              ✓ Please arrive at the scheduled time to collect your rations
+          <div className="slot-footer">
+            <p className="slot-footer-text">
+              <span>✓</span>
+              <span>Please arrive at the scheduled time to collect your rations</span>
             </p>
           </div>
         </div>
       ) : (
-        <div style={{
-          border: "2px solid #ff9800",
-          borderRadius: "12px",
-          padding: "40px",
-          backgroundColor: "#fff9f0",
-          textAlign: "center"
-        }}>
-          <div style={{ fontSize: "48px", marginBottom: "15px" }}>
-            📅
-          </div>
-          <h3 style={{ color: "#e65100", marginBottom: "10px" }}>
-            No Time Slot Assigned
-          </h3>
-          <p style={{ color: "#666", marginBottom: "20px" }}>
-            You don't have a time slot assigned yet.
+        <div className="empty-state">
+          <div className="empty-state-icon">📅</div>
+          <h3 className="empty-state-title">No Time Slot Assigned</h3>
+          <p className="empty-state-text">
+            You don't have a time slot assigned yet. Your village admin will assign you a time slot 
+            for ration collection. Please check back later or contact your village admin.
           </p>
-          <div style={{
-            padding: "15px",
-            backgroundColor: "white",
-            borderRadius: "8px",
-            border: "1px solid #ffb74d",
-            maxWidth: "500px",
-            margin: "0 auto"
-          }}>
-            <p style={{ margin: 0, fontSize: "14px", color: "#666" }}>
-              Your village admin will assign you a time slot for ration collection.
-              Please check back later or contact your village admin.
-            </p>
-          </div>
         </div>
       )}
     </div>

@@ -1,28 +1,20 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-// Step 1: Import the Alert component
-import {
-  TextField,
-  Button,
-  Typography,
-  Container,
-  Box,
-  Alert,
-} from "@mui/material";
+import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../../context/authContext";
+import './Auth.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  // Step 2: Add a state to hold the error message
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError("");
+    setLoading(true);
 
     try {
       const loggedInUser = await login(email, password);
@@ -35,66 +27,66 @@ const Login = () => {
         navigate("/user/dashboard");
       }
     } catch (err) {
-      // Step 3: Get the message from the server and set it in the state
-      const message =
-        err.response?.data?.message ||
-        "Login failed. Please check your credentials.";
+      const message = err.response?.data?.message || "Login failed. Please check your credentials.";
       setError(message);
-      console.error("Login failed:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Container maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Sign In
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          {/* Step 4: Display the Alert if an error exists */}
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-header">
+          <div className="emblem">🌾</div>
+          <h1>Digital Ration Distribution System</h1>
+          <p>Government of India</p>
+        </div>
+
+        <div className="auth-form">
+          <h2>Citizen Login</h2>
+          <p className="form-subtitle">Enter your credentials to access your account</p>
+
           {error && (
-            <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
-              {error}
-            </Alert>
+            <div className="alert alert-error">
+              ⚠️ {error}
+            </div>
           )}
 
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            label="Email Address"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
-        </Box>
-      </Box>
-    </Container>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Email Address</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+              {loading ? 'Signing In...' : 'Sign In'}
+            </button>
+          </form>
+
+          <div className="auth-footer">
+            <p>Don't have an account? <Link to="/register">Register Now</Link></p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
